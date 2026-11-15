@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My To-Do List</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eaf2ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            width: 350px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #aaa;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2457a7;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            background: #2457a7;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #14376e;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            background: #edf2fa;
+            padding: 10px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 6px;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .delete {
+            background: red;
+        }
+
+        @media(max-width: 450px) {
+            .container {
+                width: 85%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>My To-Do List</h1>
+
+    <input type="text" id="taskInput"
+    placeholder="Enter your task">
+
+    <button onclick="addTask()">Add Task</button>
+
+    <p id="message"></p>
+
+    <h3>Total Tasks: <span id="count">0</span></h3>
+
+    <ul id="taskList"></ul>
+
+</div>
+
+<script>
+
+function addTask() {
+
+    let input = document.getElementById("taskInput");
+    let task = input.value.trim();
+    let message = document.getElementById("message");
+
+    if (task === "") {
+        message.innerText = "Please enter a task!";
+        return;
+    }
+
+    message.innerText = "";
+
+    let li = document.createElement("li");
+
+    let span = document.createElement("span");
+    span.innerText = task;
+
+    span.onclick = function() {
+        span.classList.toggle("completed");
+    };
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "Delete";
+    deleteBtn.className = "delete";
+
+    deleteBtn.onclick = function() {
+        li.remove();
+        updateCount();
+    };
+
+    li.appendChild(span);
+    li.appendChild(deleteBtn);
+
+    document.getElementById("taskList").appendChild(li);
+
+    input.value = "";
+
+    updateCount();
+}
+
+function updateCount() {
+    let total = document.querySelectorAll("#taskList li").length;
+    document.getElementById("count").innerText = total;
+}
+
+document.getElementById("taskInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        addTask();
+    }
+});
+
+</script>
+
+</body>
+  </html>
